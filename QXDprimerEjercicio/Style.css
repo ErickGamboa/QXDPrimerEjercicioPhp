@@ -1,0 +1,43 @@
+.loginConteiner{
+    
+    position: absolute;
+    margin-left: 39%;
+    margin-top: 14%;
+    text-align: center;
+
+}
+.logoutButtonPosition{
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 90%;
+}
+.labelMessage{
+    color: rgb(247, 0, 0);
+}
+.box{
+    float: left;
+    padding: 10px;
+    width: 300px;
+    margin-left: 140px;
+    margin-top: 20px;
+    text-align:center;
+
+}
+.conteiner{
+    margin-left: 28px;
+}
+.AddToCartPosition{
+    float: left;
+    padding: 10px;
+    margin-left: 46%;
+    margin-right: 44%;
+    margin-top: 10px;
+}
+.qtyMessage{
+    float: left;
+    margin-left: 40%;
+    margin-right: 34%;
+    margin-top: 10px;
+    color:rgb(247, 0, 0);
+}
+
