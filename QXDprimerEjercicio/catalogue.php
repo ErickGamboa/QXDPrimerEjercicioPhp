@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,20 +6,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-
-
-
-
-
 <?php
 $message= NULL;
-
 session_start();
 if(isset($_SESSION['message'])){
     $message = $_SESSION['message'];
 }
 include('functions.php'); 
-
 $user = $_SESSION['user'];
 $_SESSION['message'] = NULL;
 if (!$user) {
@@ -29,8 +21,8 @@ if (!$user) {
   }
 $products = getProducts();
 foreach($products as $product){
-?>
 
+?>
 <form method="POST" action"functions.php">
 <div class="conteiner">
 <div class="box">
@@ -38,15 +30,11 @@ foreach($products as $product){
 <h4><?php echo $product['name']?></h4>
 <h4> $ <?php echo $product['price']?></h4>
 <input  name = "code" class="form-control" type="text" value="<?php echo $product['codeProduct']?>" style="text-align:center" disabled>
-<input  name = "qty" class="form-control" type="text" value="Quantity Available: <?php echo $product['quantity']?>" style="text-align:center" disabled>
-<input  name = "<?php echo $product['codeProduct']?>"type="number" pattern="[^e\x22]+">
-</div>
-</div>
-
+<input  name = "qty" class="form-control" type="text" value="Quantity Available: <?php echo $product['quantity']?> "style="text-align:center" disabled>
+<input  name = "<?php echo $product['codeProduct']?>"type="number" pattern="[^e\x22]+"></div></div>
 <?php
 }
 ?>
-
 <div class = "AddToCartPosition">
 <button name = "AddButton" type="submit" class="btn btn-primary">Add to cart</button>
 </div>
@@ -67,12 +55,12 @@ foreach($products as $product){
 
 <?php
 
-/**Función que destruye la sesión y redirige al login */
+  
 if (isset($_POST["LogoutButton"])){
   session_destroy();
   header('Location:login.php');
 }
-$qtyMessage=NULL;
+
 $infoCarrito=NULL;
   if (isset($_POST["AddButton"])){
     if(!empty(getCodeCatalogue())){
@@ -84,6 +72,7 @@ $infoCarrito=NULL;
             if($jsonProduct['quantity']>=$product['qty']){
               $infoCarrito[]=
                     [
+                      "code" => $jsonProduct['codeProduct'],
                       "name" => $jsonProduct['name'],
                       "price" => $jsonProduct['price'],
                       "quantity" => $product['qty'],
@@ -93,9 +82,9 @@ $infoCarrito=NULL;
                 $data = file_get_contents('./catalogo.json');
                 $decodeData = json_decode($data, true);
                 $contador = 0;
-                  foreach($decodeData  as $lol){
+                  foreach($decodeData  as $decodeProduct){
                       $contador+=1;
-                      if($lol['codeProduct'] == $jsonProduct['codeProduct']){
+                      if($decodeProduct['codeProduct'] == $jsonProduct['codeProduct']){
                         $decodeData[$contador-1]['quantity'] = $newQtyProduct;
                         $json = json_encode($decodeData);
                         file_put_contents('./catalogo.json', $json);
@@ -105,13 +94,23 @@ $infoCarrito=NULL;
               $codesQtyError[]=$jsonProduct['codeProduct'];
               $stringcodesQtyError=implode("-",$codesQtyError);
               $_SESSION['message'] = "Qty not availble of: ".$stringcodesQtyError;
-              } 
-          }//print_r($infoCarrito);
-          //$infoCarrito=NULL;
-          header('Location:catalogue.php');
+            } 
+          }
         }
       }
     }
+    if(!empty($infoCarrito)AND!isset($_SESSION['message']) )
+    {
+      $_SESSION['infoCarrito'] = $infoCarrito;
+      $infoCarrito=NULL;
+      header('Location:carrito.php');
+      //print_r($_SESSION['infoCarrito']);
+      //saveCarrito($infoCarrito);
+      //print_r(showCarrito()); 
+    } else{
+      header('Location:catalogue.php');
+    }
+    
   }
 ?>
   

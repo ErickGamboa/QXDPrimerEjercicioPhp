@@ -53,3 +53,31 @@ function getCodeCatalogue(){
 
 
 
+/** 
+function saveCarrito($newData){
+    if(!empty($newData)){
+        //$data = file_get_contents('./carrito.json');
+        //$decodeData = json_decode($data, true);
+        //if(!empty($decodeData)){ 
+            //$decodeData = array_push($decodeData, $newData); 
+        //}else{ 
+            //$decodeData[] = $newData; 
+        //}
+        $json = json_encode($newData);
+        file_put_contents('./carrito.json', $json);
+
+                
+        
+    }
+   
+
+
+function showCarrito(){
+    $data = file_get_contents('./carrito.json');
+    $decodeData = json_decode($data, true);
+    return $decodeData;
+}
+*/
+
+
+
