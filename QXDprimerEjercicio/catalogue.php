@@ -29,8 +29,9 @@ foreach($products as $product){
 <img src="<?php echo $product['image']?>" alt="yoast seo" height="210" width="260"/>
 <h4><?php echo $product['name']?></h4>
 <h4> $ <?php echo $product['price']?></h4>
-<input  name = "code" class="form-control" type="text" value="<?php echo $product['codeProduct']?>" style="text-align:center" disabled>
-<input  name = "qty" class="form-control" type="text" value="Quantity Available: <?php echo $product['quantity']?> "style="text-align:center" disabled>
+<label  name = "code" style="text-align:center"><?php echo $product['codeProduct']?></label>
+<Br>
+<label  name = "code" style="text-align:center">Quantity Available: <?php echo $product['quantity']?></label>
 <input  name = "<?php echo $product['codeProduct']?>"type="number" pattern="[^e\x22]+"></div></div>
 <?php
 }

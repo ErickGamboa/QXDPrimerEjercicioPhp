@@ -51,6 +51,30 @@ function getCodeCatalogue(){
     
 }
 
+function updateCarrito (){
+    $contador=NULL;
+    $qtyArray=$_POST['qty'];
+    $codeArray=$_POST['code'];
+    print_r($_POST);
+   // print_r($codeArray);
+    /*
+    $products = $_SESSION['infoCarrito'];
+    foreach($products as $product){
+        $contador+=1;
+        foreach($codeArray as $code){
+            if($product['code'] == $code){
+                foreach($qtyArray as $qty){
+                $products[$contador-1]['quantity']=intval($qty);
+                unset($_SESSION['infoCarrito']);
+                $_SESSION['infoCarrito']=$products;
+                }
+            }    
+        }
+        
+        header('Location:carrito.php');
+    }*/
+}
+    
 
 
 /** 
