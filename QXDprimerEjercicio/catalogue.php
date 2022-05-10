@@ -32,7 +32,7 @@ foreach($products as $product){
 <label  name = "code" style="text-align:center"><?php echo $product['codeProduct']?></label>
 <Br>
 <label  name = "code" style="text-align:center">Quantity Available: <?php echo $product['quantity']?></label>
-<input  name = "<?php echo $product['codeProduct']?>"type="number" pattern="[^e\x22]+"></div></div>
+<input  name = "<?php echo $product['codeProduct']?>"type="number" pattern="[^e\x22]+" style="text-align:center"></div></div>
 <?php
 }
 ?>
@@ -71,7 +71,7 @@ $infoCarrito=NULL;
         foreach($productsInfo as $jsonProduct){
           if($jsonProduct['codeProduct']==$product['code']){
             if($jsonProduct['quantity']>=$product['qty']){
-              $infoCarrito[]=
+              $infoCarrito[$jsonProduct['codeProduct']]=
                     [
                       "code" => $jsonProduct['codeProduct'],
                       "name" => $jsonProduct['name'],

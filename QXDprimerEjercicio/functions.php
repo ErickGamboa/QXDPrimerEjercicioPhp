@@ -1,6 +1,8 @@
 <?php
 /**Función que consume los datos del json y los compara con los datos de login ingresados por el usuario */
 /**Si la vadilación es correcta retorna los  datos  del usuario */
+
+
 function authenticate (){
     if(file_exists("./users.json")){
         $string = file_get_contents("./users.json");
@@ -50,5 +52,8 @@ function getCodeCatalogue(){
     }return $arrayCodes;
     
 }
+
+
+
 
 
