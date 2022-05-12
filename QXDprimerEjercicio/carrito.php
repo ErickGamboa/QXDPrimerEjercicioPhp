@@ -22,10 +22,13 @@
     session_start();
     $user = $_SESSION['user'];
     $_SESSION['message'] = NULL;
+    /**
     if (!$user){
       $_SESSION['message'] = "YOU HAVE TO LOG IN";
       header('Location: login.php');
     }
+    */
+
   ?>
   <body>
 
@@ -150,11 +153,28 @@ if (isset($_POST["back"])){
 }
 
 if (isset($_POST["clearAll"])){
+
+  $data = file_get_contents('./catalogo.json');
+  $decodeData = json_decode($data, true);
+  $contador = 0;
+  foreach($decodeData  as $decodeProduct){
+    $contador+=1;
+    $productsCarrito = $_SESSION['infoCarrito'];
+    foreach($productsCarrito as $productCarrito){
+      if($decodeProduct['codeProduct'] == $productCarrito['code']){
+        $decodeData[$contador-1]['quantity'] += $productCarrito['quantity'];
+        $json = json_encode($decodeData);
+        file_put_contents('./catalogo.json', $json);
+      }
+
+    }
+  }
   unset($_SESSION['infoCarrito']);
   header('Location:catalogue.php');
 }
-if (isset($_POST["placeOrder"])){
 
+if (isset($_POST["placeOrder"])){
+  header('Location:orderPlaced.php');
 }
 
 ?>
