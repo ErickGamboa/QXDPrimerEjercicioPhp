@@ -22,12 +22,11 @@
     session_start();
     $user = $_SESSION['user'];
     $_SESSION['message'] = NULL;
-    /**
+
     if (!$user){
       $_SESSION['message'] = "YOU HAVE TO LOG IN";
       header('Location: login.php');
     }
-    */
 
   ?>
   <body>
@@ -56,25 +55,25 @@
           <tbody>
             <?php
               $orderTotal=0;
-              if(isset($_SESSION['infoCarrito'])){
-              $products = $_SESSION['infoCarrito'];
-              foreach($products as $product):
-              $orderTotal+=$product['price']*intval($product['quantity']);
+              $productsJson=getProducts();
+              foreach($productsJson as $productJson):
+              if (isset($_SESSION[$productJson['codeProduct']])){
+              $orderTotal+=$productJson['price']*intval($_SESSION[$productJson['codeProduct']]['quantity']);
             ?>
             <tr>
-              <td><input type="hidden" value="<?php echo $product['code'] ?>" /></td>
-              <td><img src="<?php echo $product['image']?>" alt="yoast seo" height="110" width="160"/> <?php echo $product['name'] ?> </td>
-              <td>$<?php echo $product['price'] ?></td>
-              <td><input type="number" style="text-align:center" value="<?php echo $product['quantity']?>" id="soloNumeros"></td>
-              <td>$<?php echo $product['price']*intval($product['quantity']) ?></td>
+              <td><input type="hidden" value="<?php echo $_SESSION[$productJson['codeProduct']]['code'] ?>" /></td>
+              <td><img src="<?php echo $productJson['image']?>" alt="yoast seo" height="110" width="160"/> <?php echo $productJson['name'] ?> </td>
+              <td>$<?php echo $productJson['price'] ?></td>
+              <td><input type="text" style="text-align:center" value="<?php echo $_SESSION[$productJson['codeProduct']]['quantity']?>" id="soloNumeros"></td>
+              <td>$<?php echo $productJson['price']*intval($_SESSION[$productJson['codeProduct']]['quantity']) ?></td>
               <td>
                 <button class="btn btn-primary btnUpdate">Update</button>
                 <button class="btn btn-primary btnRemove">Remove</button>
               </td>
             </tr>
             <?php
-              endforeach;
               }
+              endforeach;
             ?>
           </tbody>
         </table>
@@ -88,7 +87,6 @@
       </form>
       <label  name = "orderTotal" style="text-align:center">Order total: $<?php echo $orderTotal?></label>
     </div>
-
   </body>
 </html>
 <script>
@@ -159,15 +157,12 @@ if (isset($_POST["clearAll"])){
   $contador = 0;
   foreach($decodeData  as $decodeProduct){
     $contador+=1;
-    $productsCarrito = $_SESSION['infoCarrito'];
-    foreach($productsCarrito as $productCarrito){
-      if($decodeProduct['codeProduct'] == $productCarrito['code']){
-        $decodeData[$contador-1]['quantity'] += $productCarrito['quantity'];
+      if (isset($_SESSION[$decodeProduct['codeProduct']])){
+        $decodeData[$contador-1]['quantity'] += $_SESSION[$decodeProduct['codeProduct']]['quantity'];
         $json = json_encode($decodeData);
         file_put_contents('./catalogo.json', $json);
+        unset($_SESSION[$decodeProduct['codeProduct']]);
       }
-
-    }
   }
   unset($_SESSION['infoCarrito']);
   header('Location:catalogue.php');
