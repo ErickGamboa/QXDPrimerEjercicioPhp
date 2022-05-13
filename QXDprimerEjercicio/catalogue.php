@@ -119,6 +119,11 @@ if (isset($_POST["AddButton"])){
                   file_put_contents('./catalogo.json', $json);
                 }
               }
+            }else{ 
+              $codesQtyError[]=$jsonProduct['codeProduct'];
+              $stringcodesQtyError=implode("-",$codesQtyError);
+              $_SESSION['message'] = "Qty not availble of: ".$stringcodesQtyError;
+              header('Location:catalogue.php');
             }
           }
         }
@@ -126,64 +131,5 @@ if (isset($_POST["AddButton"])){
     }
   }
 }
-
-    
-    
-      
-      
-      
-      
-      
-      /*else{
-        if(!empty(getCodeCatalogue())){
-          $codeAndQtySelected=getCodeCatalogue();
-          foreach($codeAndQtySelected as $product){
-            $productsInfo = getProducts();
-            foreach($productsInfo as $jsonProduct){
-              if($jsonProduct['codeProduct']==$product['code']){
-                if($jsonProduct['quantity']>=$product['qty']){
-                  foreach($productsCarrito as $productCarrito){
-                    if($productCarrito['code']==$product['code']){
-                      $productsCarrito[$product['code']]['quantity'] += $product['qty'];
-                      $_SESSION['infoCarrito'] = $productsCarrito;
-                      header('Location:carrito.php');
-                      $newQtyProduct = $jsonProduct['quantity']-$product['qty'];
-                      $data = file_get_contents('./catalogo.json');
-                      $decodeData = json_decode($data, true);
-                      $contador = 0;
-                      foreach($decodeData  as $decodeProduct){
-                        $contador+=1;
-                        if($decodeProduct['codeProduct'] == $jsonProduct['codeProduct']){
-                          $decodeData[$contador-1]['quantity'] = $newQtyProduct;
-                          $json = json_encode($decodeData);
-                          file_put_contents('./catalogo.json', $json);
-                        }else{};
-                      }
-                    }else{
-                      $_SESSION['infoCarrito'][$jsonProduct['codeProduct']]=
-                      [
-                        "code" => $jsonProduct['codeProduct'],
-                        "name" => $jsonProduct['name'],
-                        "price" => $jsonProduct['price'],
-                        "quantity" => $product['qty'],
-                        "image" => $jsonProduct['image'],
-                      ];
-                      header('Location:carrito.php');
-                    }
-                  }
-                }else{ 
-                  $codesQtyError[]=$jsonProduct['codeProduct'];
-                  $stringcodesQtyError=implode("-",$codesQtyError);
-                  $_SESSION['message'] = "Qty not availble of: ".$stringcodesQtyError;
-                  header('Location:catalogue.php');
-                } 
-              }
-            }
-          }
-        }
-      }*/
-          
-
- 
 ?>
   
